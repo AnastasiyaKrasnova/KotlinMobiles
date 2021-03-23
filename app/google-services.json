@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "571636137093",
+    "project_id": "customlogindemo-b3873",
+    "storage_bucket": "customlogindemo-b3873.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571636137093:android:2e6c59006a3d0800797dec",
+        "android_client_info": {
+          "package_name": "com.example.jojoapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "571636137093-n5f41mi13k4mmrbj4t1an20crhoooeju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYP4uoy5zi0IxxAj2NIU1FR-nyTW5-tvA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "571636137093-n5f41mi13k4mmrbj4t1an20crhoooeju.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "571636137093-vubapu8i2q7dgtbr7u64ac8da5rhfsvd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "nastya.Test2"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
