@@ -1,11 +1,14 @@
 package com.example.jojoapp.activities
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.Toast
 import com.example.jojoapp.R
 import com.google.firebase.auth.FirebaseAuth
@@ -18,6 +21,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var registerButton: Button
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var tumb: ImageView
+
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         registerButton=findViewById(R.id.registerButton)
         emailEditText=findViewById(R.id.emailTextField)
         passwordEditText=findViewById(R.id.passwordTextField)
-
+        tumb=findViewById(R.id.tumb)
         loginButton.setOnClickListener{
             LoginUser(emailEditText.text.trim().toString(),passwordEditText.text.trim().toString())
         }
@@ -38,6 +43,9 @@ class MainActivity : AppCompatActivity() {
             var intent= Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
+
+        val bm = retrieveVideoFrameFromVideo("https://firebasestorage.googleapis.com/v0/b/customlogindemo-b3873.appspot.com/o/images%2FDio.mp4?alt=media&token=38ae8172-28cf-4aff-96b2-bb94ed34fa6f")
+        tumb.setImageBitmap(bm)
 
     }
 
@@ -69,6 +77,21 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    fun retrieveVideoFrameFromVideo(videoPath: String?): Bitmap? {
+        var bitmap: Bitmap? = null
+        var mediaMetadataRetriever: MediaMetadataRetriever? = null
+        try {
+            mediaMetadataRetriever = MediaMetadataRetriever()
+            mediaMetadataRetriever.setDataSource(videoPath, HashMap<String, String>())
+            bitmap = mediaMetadataRetriever.frameAtTime
+        } catch (e: Exception) {
+            e.printStackTrace()
+        } finally {
+            mediaMetadataRetriever?.release()
+        }
+        return bitmap
     }
 
 }

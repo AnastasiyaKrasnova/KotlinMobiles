@@ -46,6 +46,7 @@ class TableViewActivity : AppCompatActivity() {
                     characterList.documents[position].data?.get("age") as String?,
                     characterList.documents[position].data?.get("season") as String?,
                     characterList.documents[position].data?.get("avatar") as String?,
+                    characterList.documents[position].data?.get("description") as String?,
                     characterList.documents[position].data?.get("images") as ArrayList<String>?,
                     characterList.documents[position].data?.get("videos") as ArrayList<String>?,
                     characterList.documents[position].data?.get("latitude") as String?,
