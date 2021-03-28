@@ -19,6 +19,7 @@ import com.example.jojoapp.beans.Character
 import com.example.jojoapp.dao.GlideApp
 import com.example.jojoapp.dao.loadPicture
 import com.firebase.ui.storage.images.FirebaseImageLoader
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
@@ -32,14 +33,21 @@ import java.io.Serializable
 
 class TableViewActivity : AppCompatActivity() {
 
-    public lateinit var characterList: QuerySnapshot
-    public lateinit var collection: GridView
+    private lateinit var characterList: QuerySnapshot
+    private lateinit var collection: GridView
+    private lateinit var bottomNav: BottomNavigationView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.tableview)
+
+        bottomNav=findViewById(R.id.bottom_navigation)
+        bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
         collection=findViewById<GridView>(R.id.characterCollection)
+
+
         collection.setOnItemClickListener{ adapterview: AdapterView<*>?, view: View?, position: Int, id: Long ->
             var character=Character(characterList.documents[position].id,characterList.documents[position].data?.get("name") as String?,
                     characterList.documents[position].data?.get("stand") as String?,
@@ -61,6 +69,21 @@ class TableViewActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         getCharacters()
+    }
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.back -> {
+                finish()
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.add_button-> {
+                var intent= Intent(this, EditActivity::class.java)
+                startActivity(intent)
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
     }
 
     private fun getCharacters() {

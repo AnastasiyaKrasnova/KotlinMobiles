@@ -1,19 +1,15 @@
 package com.example.jojoapp.activities
 
 import android.content.Intent
-import android.graphics.Bitmap
-import android.media.MediaMetadataRetriever
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
+import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import com.example.jojoapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +17,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var registerButton: Button
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
-    private lateinit var tumb: ImageView
 
     private lateinit var auth: FirebaseAuth
 
@@ -34,7 +29,6 @@ class MainActivity : AppCompatActivity() {
         registerButton=findViewById(R.id.registerButton)
         emailEditText=findViewById(R.id.emailTextField)
         passwordEditText=findViewById(R.id.passwordTextField)
-        tumb=findViewById(R.id.tumb)
         loginButton.setOnClickListener{
             LoginUser(emailEditText.text.trim().toString(),passwordEditText.text.trim().toString())
         }

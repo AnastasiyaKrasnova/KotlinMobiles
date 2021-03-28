@@ -25,6 +25,10 @@
         </activity>
         <activity android:name=".activities.PhotoActivity">
         </activity>
+        <activity android:name=".activities.PlayerActivity">
+        </activity>
+        <activity android:name=".activities.EditActivity">
+        </activity>
     </application>
 
 </manifest>

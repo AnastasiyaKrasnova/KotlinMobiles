@@ -8,10 +8,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
-import android.widget.GridView
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.jojoapp.R
 import com.example.jojoapp.beans.Character
@@ -26,7 +23,7 @@ class PhotoActivity: AppCompatActivity() {
 
     private lateinit var detailed_data: Character
     private lateinit var bottomNav: BottomNavigationView
-    public lateinit var collection: GridView
+    private lateinit var collection: GridView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +35,14 @@ class PhotoActivity: AppCompatActivity() {
         collection=findViewById<GridView>(R.id.photoCollection)
         var customAdapter=PhotoCustomAdapter(detailed_data,this)
         collection.adapter=customAdapter
+
+        collection.setOnItemClickListener { adapterview: AdapterView<*>?, view: View?, position: Int, id: Long ->
+            if (position>=detailed_data.photo!!.size){
+                var intent= Intent(this, PlayerActivity::class.java)
+                intent.putExtra("video_url", detailed_data.video!![position-detailed_data.photo!!.size])
+                startActivity(intent)
+            }
+        }
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -54,6 +59,7 @@ class PhotoActivity: AppCompatActivity() {
 class PhotoCustomAdapter(var characterModel: Character, var context: Context):
     BaseAdapter(){
 
+    var border=0
     var layoutInflater=context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
@@ -67,14 +73,11 @@ class PhotoCustomAdapter(var characterModel: Character, var context: Context):
     }
 
     override fun getItem(position: Int): Any {
-        var border=0
-        if (characterModel.photo!=null)
-            border=characterModel.photo!!.size
-        if (characterModel.photo!=null && position < border)
+        border=characterModel.photo!!.size
+        if (position<border)
             return characterModel.photo!![position]
-        if (characterModel.video!=null && position >= border)
+        else
             return characterModel.video!![position-border]
-        else return false
     }
 
     override fun getItemId(position: Int): Long {
