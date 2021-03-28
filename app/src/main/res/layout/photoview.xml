@@ -10,7 +10,7 @@
     >
 
     <GridView
-        android:id="@+id/characterCollection"
+        android:id="@+id/photoCollection"
         android:layout_width="384dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp"
@@ -30,7 +30,7 @@
         app:itemBackground="@color/purple_200"
         app:itemTextColor="@drawable/selector"
         app:itemIconTint="@drawable/selector"
-        app:menu="@menu/grid_navigation" />
+        app:menu="@menu/back_navigation" />
 
 
 </RelativeLayout>

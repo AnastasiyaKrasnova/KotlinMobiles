@@ -3,12 +3,14 @@ package com.example.jojoapp.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import android.widget.Button
 import android.widget.Toast
 import com.example.jojoapp.R
 import com.example.jojoapp.beans.User
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
@@ -23,11 +25,12 @@ class SignUpActivity : AppCompatActivity(){
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var signUpButton: Button
+    private lateinit var bottomNav: BottomNavigationView
     private lateinit var auth: FirebaseAuth
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.signup)
+        setContentView(R.layout.signupview)
         auth = Firebase.auth
 
         emailEditText=findViewById(R.id.emailTextField)
@@ -35,11 +38,24 @@ class SignUpActivity : AppCompatActivity(){
         firstnameEditText=findViewById(R.id.firstnameTextField)
         lastnameEditText=findViewById(R.id.lastnameTextField)
         signUpButton=findViewById(R.id.signupButton)
+        bottomNav=findViewById(R.id.bottom_navigation)
+
+        bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
         signUpButton.setOnClickListener{
             Register(firstnameEditText.text.trim().toString(), lastnameEditText.text.trim().toString(),
                     emailEditText.text.trim().toString(), passwordEditText.text.trim().toString())
         }
+    }
+
+    private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+        when (item.itemId) {
+            R.id.back -> {
+                finish()
+                return@OnNavigationItemSelectedListener true
+            }
+        }
+        false
     }
 
     private fun validateFields (): String?{

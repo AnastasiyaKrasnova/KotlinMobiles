@@ -69,7 +69,7 @@ class TableViewActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { result ->
                 characterList=result
-                var customAdapter=CustomAdapter(characterList,this)
+                var customAdapter=CharacterCustomAdapter(characterList,this)
                 collection.adapter=customAdapter
                 for (document in result) {
                     Log.d("TAG", "${document.id} => ${document.data}")
@@ -81,7 +81,7 @@ class TableViewActivity : AppCompatActivity() {
     }
 }
 
-class CustomAdapter(var itemModel: QuerySnapshot, var context: Context):
+class CharacterCustomAdapter(var itemModel: QuerySnapshot, var context: Context):
     BaseAdapter(){
 
     var layoutInflater=context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

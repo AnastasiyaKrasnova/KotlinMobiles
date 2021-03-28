@@ -1,6 +1,8 @@
 package com.example.jojoapp.dao
 
 import android.app.Activity
+import android.graphics.Bitmap
+import android.media.MediaMetadataRetriever
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
@@ -38,5 +40,20 @@ public fun loadPicture(url: String, imageView: ImageView, activity: Activity) {
     GlideApp.with(activity)
             .load(httpsReference)
             .into(imageView)
+}
+
+fun retrieveVideoFrameFromVideo(videoPath: String?): Bitmap? {
+    var bitmap: Bitmap? = null
+    var mediaMetadataRetriever: MediaMetadataRetriever? = null
+    try {
+        mediaMetadataRetriever = MediaMetadataRetriever()
+        mediaMetadataRetriever.setDataSource(videoPath, HashMap<String, String>())
+        bitmap = mediaMetadataRetriever.frameAtTime
+    } catch (e: Exception) {
+        e.printStackTrace()
+    } finally {
+        mediaMetadataRetriever?.release()
+    }
+    return bitmap
 }
 

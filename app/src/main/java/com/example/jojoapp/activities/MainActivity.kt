@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login)
+        setContentView(R.layout.loginview)
 
         auth = Firebase.auth
         loginButton=findViewById(R.id.signupButton)
@@ -43,9 +43,6 @@ class MainActivity : AppCompatActivity() {
             var intent= Intent(this, SignUpActivity::class.java)
             startActivity(intent)
         }
-
-        val bm = retrieveVideoFrameFromVideo("https://firebasestorage.googleapis.com/v0/b/customlogindemo-b3873.appspot.com/o/images%2FDio.mp4?alt=media&token=38ae8172-28cf-4aff-96b2-bb94ed34fa6f")
-        tumb.setImageBitmap(bm)
 
     }
 
@@ -77,21 +74,6 @@ class MainActivity : AppCompatActivity() {
         }
 
 
-    }
-
-    fun retrieveVideoFrameFromVideo(videoPath: String?): Bitmap? {
-        var bitmap: Bitmap? = null
-        var mediaMetadataRetriever: MediaMetadataRetriever? = null
-        try {
-            mediaMetadataRetriever = MediaMetadataRetriever()
-            mediaMetadataRetriever.setDataSource(videoPath, HashMap<String, String>())
-            bitmap = mediaMetadataRetriever.frameAtTime
-        } catch (e: Exception) {
-            e.printStackTrace()
-        } finally {
-            mediaMetadataRetriever?.release()
-        }
-        return bitmap
     }
 
 }
