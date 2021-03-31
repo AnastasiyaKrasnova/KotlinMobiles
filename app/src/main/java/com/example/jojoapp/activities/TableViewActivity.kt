@@ -49,7 +49,8 @@ class TableViewActivity : AppCompatActivity() {
 
 
         collection.setOnItemClickListener{ adapterview: AdapterView<*>?, view: View?, position: Int, id: Long ->
-            var character=Character(characterList.documents[position].id,characterList.documents[position].data?.get("name") as String?,
+            var character=Character(
+                    characterList.documents[position].data?.get("name") as String?,
                     characterList.documents[position].data?.get("stand") as String?,
                     characterList.documents[position].data?.get("age") as String?,
                     characterList.documents[position].data?.get("season") as String?,
@@ -62,6 +63,7 @@ class TableViewActivity : AppCompatActivity() {
                     )
             var intent= Intent(this, DetailedActivity::class.java)
             intent.putExtra("detailed_data", character)
+            intent.putExtra("document_id", characterList.documents[position].id)
             startActivity(intent)
         }
     }
@@ -79,6 +81,7 @@ class TableViewActivity : AppCompatActivity() {
             }
             R.id.add_button-> {
                 var intent= Intent(this, EditActivity::class.java)
+                intent.putExtra("is_editing", false)
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }

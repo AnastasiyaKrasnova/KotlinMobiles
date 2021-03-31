@@ -67,8 +67,10 @@ class SignUpActivity : AppCompatActivity(){
     }
 
     private fun Register(firstname: String?, lastname: String?, email: String?, password: String?){
-        if (validateFields()!=null){
-            Toast.makeText(baseContext, "Fill all text fields",
+
+        val res=validateFields()
+        if (res!=null){
+            Toast.makeText(baseContext, res,
                     Toast.LENGTH_SHORT).show()
         }
         else{

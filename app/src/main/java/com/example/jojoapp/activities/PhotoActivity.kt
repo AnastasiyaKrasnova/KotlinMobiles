@@ -37,9 +37,9 @@ class PhotoActivity: AppCompatActivity() {
         collection.adapter=customAdapter
 
         collection.setOnItemClickListener { adapterview: AdapterView<*>?, view: View?, position: Int, id: Long ->
-            if (position>=detailed_data.photo!!.size){
+            if (position>=detailed_data.images!!.size){
                 var intent= Intent(this, PlayerActivity::class.java)
-                intent.putExtra("video_url", detailed_data.video!![position-detailed_data.photo!!.size])
+                intent.putExtra("video_url", detailed_data.videos!![position-detailed_data.images!!.size])
                 startActivity(intent)
             }
         }
@@ -68,16 +68,16 @@ class PhotoCustomAdapter(var characterModel: Character, var context: Context):
             row_view=layoutInflater.inflate(R.layout.photo_item,viewGroup,false )
         }
         var photo=row_view?.findViewById<ImageView>(R.id.photoImage)
-        FillControllers(photo!!, position, characterModel.photo, characterModel.video)
+        FillControllers(photo!!, position, characterModel.images, characterModel.videos)
         return row_view!!
     }
 
     override fun getItem(position: Int): Any {
-        border=characterModel.photo!!.size
+        border=characterModel.images!!.size
         if (position<border)
-            return characterModel.photo!![position]
+            return characterModel.images!![position]
         else
-            return characterModel.video!![position-border]
+            return characterModel.videos!![position-border]
     }
 
     override fun getItemId(position: Int): Long {
@@ -85,15 +85,15 @@ class PhotoCustomAdapter(var characterModel: Character, var context: Context):
     }
 
     override fun getCount(): Int {
-        return characterModel.photo!!.size+characterModel.video!!.size
+        return characterModel.images!!.size+characterModel.videos!!.size
     }
 
     private fun FillControllers(image: ImageView, position: Int, photo_array: ArrayList<String>?, video_array: ArrayList<String>?){
-        if (position < characterModel.photo!!.size) {
+        if (position < characterModel.images!!.size) {
             loadPicture(photo_array!![position], image, context as Activity)
         }
         else{
-            val bm = retrieveVideoFrameFromVideo(video_array!![position-characterModel.photo!!.size])
+            val bm = retrieveVideoFrameFromVideo(video_array!![position-characterModel.images!!.size])
             image.setImageBitmap(bm)
         }
     }

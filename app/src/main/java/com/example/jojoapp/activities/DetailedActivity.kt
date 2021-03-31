@@ -20,6 +20,8 @@ import com.google.firebase.firestore.QuerySnapshot
 class DetailedActivity : AppCompatActivity() {
 
     private lateinit var detailed_data: Character
+    private  var document_id: String?=null
+
     private lateinit var name: TextView
     private lateinit var stand: TextView
     private lateinit var age: TextView
@@ -47,6 +49,7 @@ class DetailedActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         detailed_data=intent.getSerializableExtra("detailed_data") as Character
+        document_id=intent.getStringExtra("document_id")
         name.text=detailed_data.name
         stand.text=detailed_data.stand
         age.text=detailed_data.age
@@ -67,6 +70,15 @@ class DetailedActivity : AppCompatActivity() {
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.edit_button-> {
+                var intent= Intent(this, EditActivity::class.java)
+                intent.putExtra("is_editing", true)
+                intent.putExtra("detailed_data", detailed_data)
+                intent.putExtra("document_id", document_id)
+                startActivity(intent)
+                return@OnNavigationItemSelectedListener true
+            }
+
         }
         false
     }

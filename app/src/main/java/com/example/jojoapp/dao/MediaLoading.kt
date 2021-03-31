@@ -2,17 +2,22 @@ package com.example.jojoapp.dao
 
 import android.app.Activity
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.media.MediaMetadataRetriever
+import android.net.Uri
 import android.widget.ImageView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Registry
 import com.bumptech.glide.annotation.GlideModule
 import com.bumptech.glide.module.AppGlideModule
 import com.firebase.ui.storage.images.FirebaseImageLoader
+import com.google.android.gms.tasks.Task
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
 import com.google.firebase.storage.ktx.storage
+import java.io.ByteArrayOutputStream
 import java.io.InputStream
 
 @GlideModule
@@ -40,6 +45,29 @@ public fun loadPicture(url: String, imageView: ImageView, activity: Activity) {
     GlideApp.with(activity)
             .load(httpsReference)
             .into(imageView)
+}
+
+public fun storePicture (imageView: ImageView, path: String): Task<Uri> {
+    imageView.isDrawingCacheEnabled = true
+    imageView.buildDrawingCache()
+
+    val storageRef = storage.reference
+    val mountainImagesRef = storageRef.child("images/"+path)
+    val bitmap = (imageView.drawable as BitmapDrawable).bitmap
+    val baos = ByteArrayOutputStream()
+    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+    val data = baos.toByteArray()
+
+    var uploadTask = mountainImagesRef.putBytes(data)
+    val urlTask = uploadTask.continueWithTask { task ->
+        if (!task.isSuccessful) {
+            task.exception?.let {
+                throw it
+            }
+        }
+        mountainImagesRef.downloadUrl
+    }
+    return urlTask
 }
 
 fun retrieveVideoFrameFromVideo(videoPath: String?): Bitmap? {
