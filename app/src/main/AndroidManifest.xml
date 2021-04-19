@@ -30,6 +30,8 @@
         </activity>
         <activity android:name=".activities.EditActivity">
         </activity>
+        <activity android:name=".activities.SettingsActivity">
+        </activity>
     </application>
 
 </manifest>

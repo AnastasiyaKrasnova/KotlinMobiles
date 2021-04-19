@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ДжоДжо</string>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_english">Английский</string>
+    <string name="settings_russian">Русский</string>
+</resources>

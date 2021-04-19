@@ -18,6 +18,7 @@ import com.example.jojoapp.R
 import com.example.jojoapp.beans.Character
 import com.example.jojoapp.dao.GlideApp
 import com.example.jojoapp.dao.loadPicture
+import com.example.jojoapp.helpers.Settings
 import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.QueryDocumentSnapshot
@@ -36,6 +37,7 @@ class TableViewActivity : AppCompatActivity() {
     private lateinit var characterList: QuerySnapshot
     private lateinit var collection: GridView
     private lateinit var bottomNav: BottomNavigationView
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,6 +87,11 @@ class TableViewActivity : AppCompatActivity() {
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
+            R.id.settings_button-> {
+                var intent= Intent(this, SettingsActivity::class.java)
+                startActivity(intent)
+                return@OnNavigationItemSelectedListener true
+            }
         }
         false
     }
@@ -109,7 +116,7 @@ class TableViewActivity : AppCompatActivity() {
 
 class CharacterCustomAdapter(var itemModel: QuerySnapshot, var context: Context):
     BaseAdapter(){
-
+    private var settings: Settings=Settings()
     var layoutInflater=context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
@@ -122,6 +129,10 @@ class CharacterCustomAdapter(var itemModel: QuerySnapshot, var context: Context)
         var stand=row_view?.findViewById<TextView>(R.id.gridStand)
         var age=row_view?.findViewById<TextView>(R.id.gridAge)
         var season=row_view?.findViewById<TextView>(R.id.gridSeason)
+        settings.setTextViewSettings(name!!, context as Activity)
+        settings.setTextViewSettings(stand!!, context as Activity)
+        settings.setTextViewSettings(age!!, context as Activity)
+        settings.setTextViewSettings(season!!, context as Activity)
         FillControllers(name!!, stand!!, age!!, season!!,avatar!!, itemModel.documents[position] as QueryDocumentSnapshot)
         return row_view!!
     }

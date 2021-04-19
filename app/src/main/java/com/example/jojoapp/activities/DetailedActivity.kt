@@ -1,5 +1,6 @@
 package com.example.jojoapp.activities
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
@@ -11,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.jojoapp.R
 import com.example.jojoapp.beans.Character
 import com.example.jojoapp.dao.loadPicture
+import com.example.jojoapp.helpers.Settings
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
@@ -21,6 +23,7 @@ class DetailedActivity : AppCompatActivity() {
 
     private lateinit var detailed_data: Character
     private  var document_id: String?=null
+    private var settings: Settings = Settings()
 
     private lateinit var name: TextView
     private lateinit var stand: TextView
@@ -55,6 +58,11 @@ class DetailedActivity : AppCompatActivity() {
         age.text=detailed_data.age
         season.text=detailed_data.season
         desc.text=detailed_data.description!!.toEditable()
+
+        settings.setTextViewSettings(name, this)
+        settings.setTextViewSettings(stand, this)
+        settings.setTextViewSettings(age, this)
+        settings.setTextViewSettings(season, this)
         loadPicture(detailed_data.avatar!!,avatar,this)
     }
 
