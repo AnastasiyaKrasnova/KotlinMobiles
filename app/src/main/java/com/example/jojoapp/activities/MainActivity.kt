@@ -3,6 +3,7 @@ package com.example.jojoapp.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.jojoapp.R
@@ -10,7 +11,6 @@ import com.example.jojoapp.helpers.Settings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
-import com.yandex.mapkit.MapKitFactory
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +19,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var registerButton: Button
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
+    private lateinit var errorLabel: TextView
 
     private lateinit var auth: FirebaseAuth
     private var settings: Settings = Settings()
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
         settings.setButtonSettings(registerButton,this)
         settings.setTextEditSettings(emailEditText,this)
         settings.setTextEditSettings(passwordEditText,this)
+        errorLabel.alpha=0.0F
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         registerButton=findViewById(R.id.registerButton)
         emailEditText=findViewById(R.id.emailTextField)
         passwordEditText=findViewById(R.id.passwordTextField)
+        errorLabel=findViewById(R.id.errorLabelLogin)
         loginButton.setOnClickListener{
             LoginUser(emailEditText.text.trim().toString(),passwordEditText.text.trim().toString())
         }
@@ -63,9 +66,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun LoginUser(email: String?,password: String?){
-        if (validateFields()!=null){
-            Toast.makeText(baseContext, getString(R.string.login_fill_text),
-                    Toast.LENGTH_SHORT).show()
+        val res=validateFields()
+        if (res!=null){
+            errorLabel.alpha=1.0F
+            errorLabel.text=res
         }
         else{
             auth.signInWithEmailAndPassword(email, password)
@@ -76,8 +80,8 @@ class MainActivity : AppCompatActivity() {
                             startActivity(intent)
                         } else {
                             Log.d("TAG", "signInWithEmail:failure", task.exception)
-                            Toast.makeText(baseContext, R.string.login_password_incorrect,
-                                    Toast.LENGTH_SHORT).show()
+                            errorLabel.alpha=1.0F
+                            errorLabel.text=getString(R.string.login_password_incorrect)
                         }
                     }
         }

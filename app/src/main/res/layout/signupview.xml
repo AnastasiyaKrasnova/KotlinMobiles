@@ -115,4 +115,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/back_navigation" />
 
+    <TextView
+        android:id="@+id/errorLabelReg"
+        android:layout_width="400dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="12dp"
+        android:alpha="0"
+        android:text="TextView"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/firstnameTextField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

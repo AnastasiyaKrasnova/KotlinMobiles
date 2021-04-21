@@ -8,8 +8,7 @@
     <string name="settings_language">Select language</string>
     <string name="settings_type">Select font type</string>
     <string name="settings_size">Select font size</string>
-    <string name="settings_darkmode_on">Enable Dark Mode</string>
-    <string name="settings_darkmode_off">Disable Dark Mode</string>
+    <string name="settings_darkmode">Dark Mode</string>
 
     <string name="login_title">Log In</string>
     <string name="login_button_login">Log In</string>

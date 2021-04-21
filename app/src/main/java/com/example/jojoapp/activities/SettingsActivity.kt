@@ -49,13 +49,15 @@ class SettingsActivity : AppCompatActivity() {
         var type_names=arrayListOf(getString(R.string.settings_type),"Arial" ,"Helvetica", "Disney");
         var type_values=arrayListOf("",R.font.arial.toString(),R.font.helvetica.toString(), R.font.disney.toString());
 
+        var mode_settings= this.getSharedPreferences("UserInfo",Context.MODE_PRIVATE)
+        var mode = mode_settings.getString("Mode","MODE_NIGHT_NO")
+        btn.isChecked = mode=="MODE_NIGHT_YES"
+
         btn.setOnCheckedChangeListener { _, isChecked ->
             if (btn.isChecked) {
-                btn.text = getString(R.string.settings_darkmode_on)
                 settings.setMode("MODE_NIGHT_YES",this)
 
             } else {
-                btn.text = getString(R.string.settings_darkmode_off)
                 settings.setMode("MODE_NIGHT_NO", this)
             }
         }

@@ -7,8 +7,7 @@
     <string name="settings_language">Выберете язык</string>
     <string name="settings_type">Тип шрифта</string>
     <string name="settings_size">Размер шрифта</string>
-    <string name="settings_darkmode_on">Включить темный режим</string>
-    <string name="settings_darkmode_off">Выключить темный режим</string>
+    <string name="settings_darkmode">Темный режим</string>
 
     <string name="login_title">Вход</string>
     <string name="login_button_login">Войти</string>

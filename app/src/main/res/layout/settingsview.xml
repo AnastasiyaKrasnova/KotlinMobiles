@@ -63,17 +63,18 @@
 
     <Switch
         android:id="@+id/switch1"
-        android:layout_width="338dp"
-        android:layout_height="38dp"
+        android:layout_width="238dp"
+        android:layout_height="46dp"
         android:layout_centerInParent="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="34dp"
         android:layout_marginEnd="57dp"
         android:layout_marginBottom="488dp"
-        android:text="@string/settings_darkmode_on"
+        android:text="@string/settings_darkmode"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/language_spinner"
         tools:ignore="UseSwitchCompatOrMaterialXml" />

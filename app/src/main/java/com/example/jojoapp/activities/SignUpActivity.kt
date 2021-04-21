@@ -7,6 +7,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.EditText
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import com.example.jojoapp.R
 import com.example.jojoapp.beans.User
@@ -26,6 +27,7 @@ class SignUpActivity : AppCompatActivity(){
     private lateinit var emailEditText: EditText
     private lateinit var passwordEditText: EditText
     private lateinit var signUpButton: Button
+    private lateinit var errorLabel: TextView
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var auth: FirebaseAuth
 
@@ -41,6 +43,7 @@ class SignUpActivity : AppCompatActivity(){
         firstnameEditText=findViewById(R.id.firstnameTextField)
         lastnameEditText=findViewById(R.id.lastnameTextField)
         signUpButton=findViewById(R.id.signupButton)
+        errorLabel=findViewById(R.id.errorLabelReg)
         bottomNav=findViewById(R.id.bottom_navigation)
 
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -73,8 +76,8 @@ class SignUpActivity : AppCompatActivity(){
 
         val res=validateFields()
         if (res!=null){
-            Toast.makeText(baseContext, res,
-                    Toast.LENGTH_SHORT).show()
+            errorLabel.alpha=1.0F
+            errorLabel.text=res
         }
         else{
             auth.createUserWithEmailAndPassword(email, password)
@@ -90,13 +93,13 @@ class SignUpActivity : AppCompatActivity(){
                                         startActivity(intent)
                                     }
                                     .addOnFailureListener { e ->
-                                        Toast.makeText(baseContext, getString(R.string.register_unable_to_create),
-                                                Toast.LENGTH_SHORT).show()
+                                        errorLabel.alpha=1.0F
+                                        errorLabel.text=getString(R.string.register_unable_to_create)
                                         Log.w("TAG", "Error adding document", e)
                                     }
                         } else {
-                            Toast.makeText(baseContext, getString(R.string.register_user_exists),
-                                    Toast.LENGTH_SHORT).show()
+                            errorLabel.alpha=1.0F
+                            errorLabel.text=getString(R.string.register_user_exists)
                         }
                     }
         }
@@ -111,5 +114,6 @@ class SignUpActivity : AppCompatActivity(){
         settings.setTextEditSettings(emailEditText,this)
         settings.setTextEditSettings(passwordEditText,this)
         settings.getMode(this)
+        errorLabel.alpha=0.0F
     }
 }
