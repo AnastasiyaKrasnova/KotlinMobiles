@@ -59,17 +59,24 @@ class DetailedActivity : AppCompatActivity() {
         season.text=detailed_data.season
         desc.text=detailed_data.description!!.toEditable()
 
+        settings.getLocale(this)
+        settings.getMode(this)
         settings.setTextViewSettings(name, this)
         settings.setTextViewSettings(stand, this)
         settings.setTextViewSettings(age, this)
         settings.setTextViewSettings(season, this)
+
         loadPicture(detailed_data.avatar!!,avatar,this)
     }
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.back -> {
-                finish()
+                val refresh = Intent(
+                    this,
+                    TableViewActivity::class.java
+                )
+                startActivity(refresh)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.photo_button -> {

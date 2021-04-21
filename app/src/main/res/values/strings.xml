@@ -3,4 +3,53 @@
     <string name="settings_title">Settings</string>
     <string name="settings_english">English</string>
     <string name="settings_russian">Russian</string>
+    <string name="settings_language">Select language</string>
+    <string name="settings_type">Select font type</string>
+    <string name="settings_size">Select font size</string>
+    <string name="settings_darkmode_on">Enable Dark Mode</string>
+    <string name="settings_darkmode_off">Disable Dark Mode</string>
+
+    <string name="login_title">Log In</string>
+    <string name="login_button_login">Log In</string>
+    <string name="login_button_register">Sign Up</string>
+    <string name="login_email">Enter Email</string>
+    <string name="login_password">Enter Password</string>
+    <string name="login_fields_empty">Fields cant be empty</string>
+    <string name="login_password_incorrect">Email or password are incorrect</string>
+    <string name="login_fill_text">Fill all text fields</string>
+
+
+    <string name="register_title">Sign Up</string>
+    <string name="register_button_register">Sign Up</string>
+    <string name="register_email">Enter Email</string>
+    <string name="register_password">Enter Password</string>
+    <string name="register_fn">Enter First Name</string>
+    <string name="register_ln">Enter Last Name</string>
+    <string name="register_fields_empty">Fields cant be empty</string>
+    <string name="register_unable_to_create">Unable to create user</string>
+    <string name="register_user_exists">User already exists</string>
+
+    <string name="edit_name">Enter Name</string>
+    <string name="edit_button_save">Save</string>
+    <string name="edit_stand">Enter Stand</string>
+    <string name="edit_season">Enter Seasons</string>
+    <string name="edit_age">Enter Age</string>
+    <string name="edit_longitude">Longitude</string>
+    <string name="edit_latitude">Latitude</string>
+    <string name="edit_description">Description</string>
+    <string name="edit_unable_to_create">Unable to create character</string>
+    <string name="edit_fill_all">Fill all text fields</string>
+    <string name="edit_coords_value">Coords must be standard numeric value</string>
+
+    <string name="detailed_stand">Stand:</string>
+    <string name="detailed_season">Season:</string>
+    <string name="detailed_age">Age:</string>
+    <string name="detailed_description">Description:</string>
+
+    <string name="navigation_back">Back</string>
+    <string name="navigation_edit">Edit</string>
+    <string name="navigation_photo">Photo</string>
+    <string name="navigation_map">Map</string>
+    <string name="navigation_add">Add</string>
+    <string name="navigation_settings">Settings</string>
 </resources>

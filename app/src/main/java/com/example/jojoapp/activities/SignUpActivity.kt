@@ -10,6 +10,7 @@ import android.widget.Button
 import android.widget.Toast
 import com.example.jojoapp.R
 import com.example.jojoapp.beans.User
+import com.example.jojoapp.helpers.Settings
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
@@ -27,6 +28,8 @@ class SignUpActivity : AppCompatActivity(){
     private lateinit var signUpButton: Button
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var auth: FirebaseAuth
+
+    private var settings: Settings = Settings()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -63,7 +66,7 @@ class SignUpActivity : AppCompatActivity(){
                 && firstnameEditText.text.trim().toString().isNotEmpty() && lastnameEditText.text.trim().toString().isNotEmpty()){
             return null;
         }
-        else return "Fields cant be empty"
+        else return getString(R.string.register_fields_empty)
     }
 
     private fun Register(firstname: String?, lastname: String?, email: String?, password: String?){
@@ -87,15 +90,26 @@ class SignUpActivity : AppCompatActivity(){
                                         startActivity(intent)
                                     }
                                     .addOnFailureListener { e ->
-                                        Toast.makeText(baseContext, "Unable to create user",
+                                        Toast.makeText(baseContext, getString(R.string.register_unable_to_create),
                                                 Toast.LENGTH_SHORT).show()
                                         Log.w("TAG", "Error adding document", e)
                                     }
                         } else {
-                            Toast.makeText(baseContext, "User with such email already exists",
+                            Toast.makeText(baseContext, getString(R.string.register_user_exists),
                                     Toast.LENGTH_SHORT).show()
                         }
                     }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        settings.getLocale(this)
+        settings.setButtonSettings(signUpButton,this)
+        settings.setTextEditSettings(firstnameEditText,this)
+        settings.setTextEditSettings(lastnameEditText,this)
+        settings.setTextEditSettings(emailEditText,this)
+        settings.setTextEditSettings(passwordEditText,this)
+        settings.getMode(this)
     }
 }

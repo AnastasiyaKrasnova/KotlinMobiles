@@ -35,7 +35,7 @@
         android:layout_height="33dp"
         android:layout_marginStart="27dp"
         android:layout_marginTop="23dp"
-        android:text="Stand:"
+        android:text="@string/detailed_stand"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailedImage" />
@@ -46,7 +46,7 @@
         android:layout_height="29dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="11dp"
-        android:text="Age:"
+        android:text="@string/detailed_age"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailedStandLab" />
@@ -57,7 +57,7 @@
         android:layout_height="29dp"
         android:layout_marginStart="28dp"
         android:layout_marginTop="11dp"
-        android:text="Season:"
+        android:text="@string/detailed_season"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailedAgeLab" />
@@ -68,7 +68,7 @@
         android:layout_height="24dp"
         android:layout_marginStart="27dp"
         android:layout_marginTop="10dp"
-        android:text="Description:"
+        android:text="@string/detailed_description"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/detailedSeasonLab" />

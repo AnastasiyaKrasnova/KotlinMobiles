@@ -70,7 +70,7 @@
         android:layout_marginTop="34dp"
         android:layout_marginEnd="57dp"
         android:layout_marginBottom="488dp"
-        android:text="Enable dark mode"
+        android:text="@string/settings_darkmode_on"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

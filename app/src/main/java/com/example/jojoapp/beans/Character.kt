@@ -1,5 +1,6 @@
 package com.example.jojoapp.beans
 
+import android.os.Parcelable
 import java.io.Serializable
 
 class Character: Serializable{

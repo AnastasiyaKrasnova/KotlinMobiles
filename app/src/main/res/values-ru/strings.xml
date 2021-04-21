@@ -4,4 +4,53 @@
     <string name="settings_title">Настройки</string>
     <string name="settings_english">Английский</string>
     <string name="settings_russian">Русский</string>
+    <string name="settings_language">Выберете язык</string>
+    <string name="settings_type">Тип шрифта</string>
+    <string name="settings_size">Размер шрифта</string>
+    <string name="settings_darkmode_on">Включить темный режим</string>
+    <string name="settings_darkmode_off">Выключить темный режим</string>
+
+    <string name="login_title">Вход</string>
+    <string name="login_button_login">Войти</string>
+    <string name="login_button_register">Регистрация</string>
+    <string name="login_email">Введите Email</string>
+    <string name="login_password">EВведите пароль</string>
+    <string name="login_fields_empty">Поля не могут быть пустыми</string>
+    <string name="login_password_incorrect">Логин или пароль не верны</string>
+    <string name="login_fill_text">FЗаполните все поля</string>
+
+
+    <string name="register_title">Регистрация</string>
+    <string name="register_button_register">Регистрация</string>
+    <string name="register_email">Введите Email</string>
+    <string name="register_password">Введите пароль</string>
+    <string name="register_fn">Введите имя</string>
+    <string name="register_ln">Введите фамилию</string>
+    <string name="register_fields_empty">Поля не могут быть пустыми</string>
+    <string name="register_unable_to_create">Невозможно создать пользователя</string>
+    <string name="register_user_exists">Пользователь уже существует</string>
+
+    <string name="edit_name">Введите имя</string>
+    <string name="edit_button_save">Сохранить</string>
+    <string name="edit_stand">Введите станд</string>
+    <string name="edit_season">Введите сезон</string>
+    <string name="edit_age">Введите возраст</string>
+    <string name="edit_longitude">Долгота</string>
+    <string name="edit_latitude">Широта</string>
+    <string name="edit_description">Описание</string>
+    <string name="edit_unable_to_create">Невозможно создать персонажа</string>
+    <string name="edit_fill_all">FЗаполните все поля</string>
+    <string name="edit_coords_value">Координаты должны быть числом</string>
+
+    <string name="detailed_stand">Станд:</string>
+    <string name="detailed_season">Сезон:</string>
+    <string name="detailed_age">Возраст:</string>
+    <string name="detailed_description">Описание:</string>
+
+    <string name="navigation_back">Назад</string>
+    <string name="navigation_edit">Изменить</string>
+    <string name="navigation_photo">Фото</string>
+    <string name="navigation_map">Карта</string>
+    <string name="navigation_add">Добавить</string>
+    <string name="navigation_settings">Настройки</string>
 </resources>

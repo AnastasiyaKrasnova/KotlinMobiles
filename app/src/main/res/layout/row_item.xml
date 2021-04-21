@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
+
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
         <ImageView
             android:id="@+id/gridImage"
             android:layout_width="200dp"
             android:layout_height="150dp"
-            android:src="@mipmap/ic_launcher"
-            android:scaleType="fitXY">
-        </ImageView>
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_launcher"></ImageView>
 
         <TextView
             android:id="@+id/gridName"
@@ -32,18 +34,30 @@
             android:textStyle="bold"></TextView>
 
         <TextView
+            android:id="@+id/gridAge"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/gridStand"
-            android:id="@+id/gridAge">
-        </TextView>
+            android:layout_below="@id/gridStand"></TextView>
 
         <TextView
+            android:id="@+id/gridSeason"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/gridAge"
-            android:id="@+id/gridSeason">
-        </TextView>
+            android:layout_below="@id/gridAge"></TextView>
+
+        <ImageButton
+            android:id="@+id/button_close_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/close" />
+
+        <ImageButton
+            android:id="@+id/button_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="150dp"
+            app:srcCompat="@drawable/ic_info" />
+
 
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

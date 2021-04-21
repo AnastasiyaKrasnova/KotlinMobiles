@@ -1,29 +1,36 @@
 package com.example.jojoapp.activities
+
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.*
 import android.widget.AdapterView.OnItemSelectedListener
+import android.widget.AdapterView.inflate
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import com.example.jojoapp.R
-import com.example.jojoapp.helpers.Settings
+import com.example.jojoapp.helpers.*
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.util.*
+
 
 class SettingsActivity : AppCompatActivity() {
     lateinit var language_spinner: Spinner
     lateinit var fontsize_spinner: Spinner
     lateinit var fonttype_spinner: Spinner
     private lateinit var bottomNav: BottomNavigationView
-    private var currentLanguage = "en"
-    private var currentLang: String? = null
     private var settings: Settings=Settings()
+
 
     override fun onStart() {
         super.onStart()
+        settings.getLocale(this)
         settings.setTextViewSettings(findViewById<TextView>(R.id.SettingsTitle),this)
+        settings.setSwitchSettings(findViewById<Switch>(R.id.switch1),this)
+        settings.getMode(this)
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,80 +39,66 @@ class SettingsActivity : AppCompatActivity() {
         bottomNav=findViewById(R.id.bottom_navigation)
         bottomNav.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
+        var language_names=arrayListOf(getString(R.string.settings_language),
+            getString(R.string.settings_english),getString(R.string.settings_russian));
+        var language_values=arrayListOf("","en","ru");
+
+        var size_names=arrayListOf(getString(R.string.settings_size),"15","16", "17","18", "19","20", "21","22", "23","24", "25");
+        var size_values=arrayListOf("","15","16", "17","18", "19","20", "21","22", "23","24", "25");
+
+        var type_names=arrayListOf(getString(R.string.settings_type),"Arial" ,"Helvetica", "Disney");
+        var type_values=arrayListOf("",R.font.arial.toString(),R.font.helvetica.toString(), R.font.disney.toString());
+
         btn.setOnCheckedChangeListener { _, isChecked ->
             if (btn.isChecked) {
-                btn.text = "Disable dark mode"
+                btn.text = getString(R.string.settings_darkmode_on)
                 settings.setMode("MODE_NIGHT_YES",this)
 
             } else {
-                btn.text = "Enable dark mode"
+                btn.text = getString(R.string.settings_darkmode_off)
                 settings.setMode("MODE_NIGHT_NO", this)
             }
         }
 
-        currentLanguage = intent.getStringExtra(currentLang).toString()
-        language_spinner = findViewById(R.id.language_spinner)
-        val language_list = ArrayList<String>()
-        language_list.add("Select language")
-        language_list.add(getString(R.string.settings_english))
-        language_list.add(getString(R.string.settings_russian))
-        val language_adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, language_list)
-        language_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        language_spinner.adapter = language_adapter
+        var lang_model=settings.createSpinnerModelList(language_names, language_values)
+        language_spinner = findViewById(R.id.language_spinner);
+        language_spinner.adapter = CustomDropDownAdapter(this,lang_model)
         language_spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                when (position) {
-                    0 -> {
-                    }
-                    1-> selectLocale("en")
-                    2-> selectLocale("ru")
+                if (position>0){
+                    selectLocale(lang_model[position].value!!)
                 }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
+
         }
 
+        var size_model=settings.createSpinnerModelList(size_names, size_values)
         fontsize_spinner = findViewById(R.id.fontsize_spinner)
-        val fontsize_list = ArrayList<String>()
-        fontsize_list.add("Select font size")
-        for (i in 15..25){
-            fontsize_list.add(i.toString())
-        }
-        val fontsize_adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, fontsize_list)
-        fontsize_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        fontsize_spinner.adapter = fontsize_adapter
+        fontsize_spinner.adapter = CustomDropDownAdapter(this,size_model)
         fontsize_spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-               if (position==0){
-               }
-               else if (position==1){
-                    selectSize(position+24)
-               }
-               else  {
-                   selectSize(position+14)
+               if (position>0){
+                   selectSize(size_model[position].value!!.toInt()+3)
                }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
 
+        var type_model=settings.createSpinnerModelList(type_names, type_values)
         fonttype_spinner = findViewById(R.id.fonttype_spinner)
-        val fonttype_list = ArrayList<String>()
-        fonttype_list.add("Select font type")
-        fontsize_list.add(getString(R.string.settings_english))
-        fontsize_list.add(getString(R.string.settings_russian))
-        val fonttype_adapter = ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, fonttype_list)
-        fonttype_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        fonttype_spinner.adapter = fonttype_adapter
+        fonttype_spinner.adapter = CustomDropDownAdapter(this,type_model)
         fonttype_spinner.onItemSelectedListener = object : OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                when (position) {
-                    0 -> {
-                    }
-                    1-> selectLocale("en")
-                    2-> selectLocale("ru")
+                if (position>0){
+                    selectType(type_model[position].value!!.toInt())
                 }
             }
-            override fun onNothingSelected(parent: AdapterView<*>) {}
+            override fun onNothingSelected(parent: AdapterView<*>) {
+            }
         }
+
+
     }
     private fun selectLocale(localeName: String) {
         settings.setLocale(localeName, this)
@@ -113,7 +106,6 @@ class SettingsActivity : AppCompatActivity() {
                 this,
                 SettingsActivity::class.java
         )
-        refresh.putExtra(currentLang, localeName)
         startActivity(refresh)
     }
 
@@ -126,7 +118,7 @@ class SettingsActivity : AppCompatActivity() {
         startActivity(refresh)
     }
 
-    private fun selectType(type: String) {
+    private fun selectType(type: Int) {
         settings.setFontType(type, this)
         val refresh = Intent(
                 this,
@@ -147,5 +139,35 @@ class SettingsActivity : AppCompatActivity() {
             }
         }
         false
+    }
+}
+
+class CustomDropDownAdapter(val context: Context, var dataSource: List<Spinner_Model>) : BaseAdapter() {
+
+    private val inflater: LayoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private var settings: Settings=Settings()
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
+
+        var view = convertView
+        if (view == null) {
+            view= inflater.inflate(R.layout.spinner_layout,null)
+        }
+        val text = view!!.findViewById<TextView>(R.id.spinner_list_items) as TextView
+        settings.setTextViewSettings(text, context as Activity)
+        text.setText(dataSource[position].name!!);
+        return view
+    }
+
+    override fun getItem(position: Int): Any? {
+        return dataSource[position];
+    }
+
+    override fun getCount(): Int {
+        return dataSource.size;
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong();
     }
 }

@@ -6,9 +6,11 @@ import android.util.Log
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import com.example.jojoapp.R
+import com.example.jojoapp.helpers.Settings
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.yandex.mapkit.MapKitFactory
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,11 +21,24 @@ class MainActivity : AppCompatActivity() {
     private lateinit var passwordEditText: EditText
 
     private lateinit var auth: FirebaseAuth
+    private var settings: Settings = Settings()
+
+    override fun onStart() {
+        super.onStart()
+        settings.getLocale(this)
+        settings.getMode(this)
+        settings.setButtonSettings(loginButton,this)
+        settings.setButtonSettings(registerButton,this)
+        settings.setTextEditSettings(emailEditText,this)
+        settings.setTextEditSettings(passwordEditText,this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.loginview)
 
+        settings.getLocale(this)
         auth = Firebase.auth
         loginButton=findViewById(R.id.signupButton)
         registerButton=findViewById(R.id.registerButton)
@@ -44,12 +59,12 @@ class MainActivity : AppCompatActivity() {
         if (emailEditText.text.trim().toString().isNotEmpty() && passwordEditText.text.trim().toString().isNotEmpty()){
             return null;
         }
-        else return "Fields cant be empty"
+        else return getString(R.string.login_fields_empty)
     }
 
     private fun LoginUser(email: String?,password: String?){
         if (validateFields()!=null){
-            Toast.makeText(baseContext, "Fill all text fields",
+            Toast.makeText(baseContext, getString(R.string.login_fill_text),
                     Toast.LENGTH_SHORT).show()
         }
         else{
@@ -61,7 +76,7 @@ class MainActivity : AppCompatActivity() {
                             startActivity(intent)
                         } else {
                             Log.d("TAG", "signInWithEmail:failure", task.exception)
-                            Toast.makeText(baseContext, "Email or password is incorrect",
+                            Toast.makeText(baseContext, R.string.login_password_incorrect,
                                     Toast.LENGTH_SHORT).show()
                         }
                     }

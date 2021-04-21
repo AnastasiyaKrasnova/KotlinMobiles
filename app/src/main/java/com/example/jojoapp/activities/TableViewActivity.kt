@@ -10,26 +10,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Registry
-import com.bumptech.glide.annotation.GlideModule
-import com.bumptech.glide.module.AppGlideModule
 import com.example.jojoapp.R
 import com.example.jojoapp.beans.Character
-import com.example.jojoapp.dao.GlideApp
+import com.example.jojoapp.beans.CharacterList
 import com.example.jojoapp.dao.loadPicture
 import com.example.jojoapp.helpers.Settings
-import com.firebase.ui.storage.images.FirebaseImageLoader
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.firestore.QueryDocumentSnapshot
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.google.firebase.storage.ktx.storage
-import java.io.InputStream
-import java.io.Serializable
 
 
 class TableViewActivity : AppCompatActivity() {
@@ -37,6 +27,7 @@ class TableViewActivity : AppCompatActivity() {
     private lateinit var characterList: QuerySnapshot
     private lateinit var collection: GridView
     private lateinit var bottomNav: BottomNavigationView
+    private var customAdapter: CharacterCustomAdapter?=null
 
 
 
@@ -49,24 +40,22 @@ class TableViewActivity : AppCompatActivity() {
 
         collection=findViewById<GridView>(R.id.characterCollection)
 
-
         collection.setOnItemClickListener{ adapterview: AdapterView<*>?, view: View?, position: Int, id: Long ->
-            var character=Character(
-                    characterList.documents[position].data?.get("name") as String?,
-                    characterList.documents[position].data?.get("stand") as String?,
-                    characterList.documents[position].data?.get("age") as String?,
-                    characterList.documents[position].data?.get("season") as String?,
-                    characterList.documents[position].data?.get("avatar") as String?,
-                    characterList.documents[position].data?.get("description") as String?,
-                    characterList.documents[position].data?.get("images") as ArrayList<String>?,
-                    characterList.documents[position].data?.get("videos") as ArrayList<String>?,
-                    characterList.documents[position].data?.get("latitude") as String?,
-                    characterList.documents[position].data?.get("longitude") as String?
-                    )
-            var intent= Intent(this, DetailedActivity::class.java)
-            intent.putExtra("detailed_data", character)
-            intent.putExtra("document_id", characterList.documents[position].id)
-            startActivity(intent)
+
+            if (view!!.id == R.id.button_close_item) {
+                deleteCharacter(characterList.documents[position].id)
+                var intent= Intent(this, TableViewActivity::class.java)
+                startActivity(intent)
+
+            }
+            else if (view!!.id == R.id.button_details){
+                var character=RepackCharacterData(position)
+                var intent= Intent(this, DetailedActivity::class.java)
+                intent.putExtra("detailed_data", character)
+                intent.putExtra("document_id", characterList.documents[position].id)
+                startActivity(intent)
+            }
+
         }
     }
 
@@ -78,7 +67,11 @@ class TableViewActivity : AppCompatActivity() {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.back -> {
-                finish()
+                val refresh = Intent(
+                    this,
+                    MainActivity::class.java
+                )
+                startActivity(refresh)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.add_button-> {
@@ -92,6 +85,24 @@ class TableViewActivity : AppCompatActivity() {
                 startActivity(intent)
                 return@OnNavigationItemSelectedListener true
             }
+
+            R.id.map_button-> {
+
+                var data=arrayListOf<Character>()
+                var documents=arrayListOf<String>()
+                for(i in 0..characterList.count()-1){
+                    data.add(RepackCharacterData(i))
+                    documents.add(characterList.documents[i].id)
+                }
+
+                var characters=CharacterList(data)
+
+                var intent= Intent(this, MapActivity::class.java)
+                intent.putExtra("character_data", characters)
+                intent.putExtra("documents", documents)
+                startActivity(intent)
+                return@OnNavigationItemSelectedListener true
+            }
         }
         false
     }
@@ -102,7 +113,7 @@ class TableViewActivity : AppCompatActivity() {
             .get()
             .addOnSuccessListener { result ->
                 characterList=result
-                var customAdapter=CharacterCustomAdapter(characterList,this)
+                customAdapter=CharacterCustomAdapter(characterList,this, Intent(this, TableViewActivity::class.java))
                 collection.adapter=customAdapter
                 for (document in result) {
                     Log.d("TAG", "${document.id} => ${document.data}")
@@ -112,9 +123,33 @@ class TableViewActivity : AppCompatActivity() {
                 Log.d("TAG", "Error getting documents: ", exception)
             }
     }
+
+    private fun deleteCharacter(doc_id: String){
+        val db = Firebase.firestore
+        db.collection("characters").document(doc_id)
+            .delete()
+            .addOnSuccessListener { Log.d("TAG", "DocumentSnapshot successfully deleted!") }
+            .addOnFailureListener { e -> Log.w("TAG", "Error deleting document", e) }
+    }
+
+    private fun RepackCharacterData(position: Int): Character{
+        var character=Character(
+                characterList.documents[position].data?.get("name") as String?,
+                characterList.documents[position].data?.get("stand") as String?,
+                characterList.documents[position].data?.get("age") as String?,
+                characterList.documents[position].data?.get("season") as String?,
+                characterList.documents[position].data?.get("avatar") as String?,
+                characterList.documents[position].data?.get("description") as String?,
+                characterList.documents[position].data?.get("images") as ArrayList<String>?,
+                characterList.documents[position].data?.get("videos") as ArrayList<String>?,
+                characterList.documents[position].data?.get("latitude") as String?,
+                characterList.documents[position].data?.get("longitude") as String?
+        )
+        return character;
+    }
 }
 
-class CharacterCustomAdapter(var itemModel: QuerySnapshot, var context: Context):
+class CharacterCustomAdapter(var itemModel: QuerySnapshot, var context: Context, var intent: Intent):
     BaseAdapter(){
     private var settings: Settings=Settings()
     var layoutInflater=context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -129,6 +164,12 @@ class CharacterCustomAdapter(var itemModel: QuerySnapshot, var context: Context)
         var stand=row_view?.findViewById<TextView>(R.id.gridStand)
         var age=row_view?.findViewById<TextView>(R.id.gridAge)
         var season=row_view?.findViewById<TextView>(R.id.gridSeason)
+        var close=row_view?.findViewById<ImageButton>(R.id.button_close_item)
+        var detail=row_view?.findViewById<ImageButton>(R.id.button_details)
+
+        close!!.setOnClickListener(View.OnClickListener { v -> (viewGroup as GridView).performItemClick(v, position, 0) })
+        detail!!.setOnClickListener(View.OnClickListener { v -> (viewGroup as GridView).performItemClick(v, position, 1) })
+
         settings.setTextViewSettings(name!!, context as Activity)
         settings.setTextViewSettings(stand!!, context as Activity)
         settings.setTextViewSettings(age!!, context as Activity)
@@ -150,12 +191,15 @@ class CharacterCustomAdapter(var itemModel: QuerySnapshot, var context: Context)
     }
 
     private fun FillControllers(name: TextView,stand: TextView,age: TextView,season: TextView, image: ImageView, doc: QueryDocumentSnapshot){
+        settings.getLocale(context as Activity)
+        settings.getMode(context as Activity)
         name.text=doc.data["name"] as String
         stand.text=doc.data["stand"] as String
         age.text="Age: "+ (doc.data["age"] as String)
         season.text="Seasons: "+ (doc.data["season"] as String)
         loadPicture(doc.data["avatar"] as String, image, context as Activity)
     }
+
 }
 
 

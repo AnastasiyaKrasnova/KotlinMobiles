@@ -15,6 +15,7 @@ import com.example.jojoapp.R
 import com.example.jojoapp.beans.Character
 import com.example.jojoapp.dao.loadPicture
 import com.example.jojoapp.dao.storePicture
+import com.example.jojoapp.helpers.Settings
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
 import com.google.firebase.auth.FirebaseAuth
@@ -42,6 +43,7 @@ class EditActivity: AppCompatActivity() {
     private lateinit var longitudeEditText: EditText
     private lateinit var descEditText: TextInputEditText
     private lateinit var bottomNav: BottomNavigationView
+    private var settings: Settings = Settings()
 
     private lateinit var auth: FirebaseAuth
 
@@ -80,6 +82,17 @@ class EditActivity: AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+
+        settings.getLocale(this)
+        settings.getMode(this)
+        settings.setTextEditSettings(nameTextEdit, this)
+        settings.setTextEditSettings(standEditText, this)
+        settings.setTextEditSettings(ageTextEdit, this)
+        settings.setTextEditSettings(seasonEditText, this)
+        settings.setTextEditSettings(latitudeEditText, this)
+        settings.setTextEditSettings(longitudeEditText, this)
+        settings.setButtonSettings(saveButton, this)
+
         isEditing=intent.getBooleanExtra("is_editing",true)
         if (isEditing){
             detailed_data=intent.getSerializableExtra("detailed_data") as Character
@@ -107,9 +120,9 @@ class EditActivity: AppCompatActivity() {
             if ((x!=null && (x > -89.3 && x< 89.3)) && (y!=null && (y > -89.3 && y< 89.3))){
                 return null
             }
-            else return "Coords must be of number value"
+            else return getString(R.string.edit_coords_value)
         }
-        else return "Fill all text fields"
+        else return getString(R.string.edit_fill_all)
     }
 
     private fun DispatchAction(name: String?, stand: String?, age: String?, season: String?,
@@ -161,7 +174,7 @@ class EditActivity: AppCompatActivity() {
                     startActivity(intent)
                 }
                 .addOnFailureListener { e ->
-                    Toast.makeText(baseContext, "Unable to create user",
+                    Toast.makeText(baseContext, getString(R.string.edit_unable_to_create),
                             Toast.LENGTH_SHORT).show()
                     Log.w("TAG", "Error adding document", e)
                 }
@@ -187,9 +200,8 @@ class EditActivity: AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == pickImage) {
-                //imageUri = data?.data
-                //avatarImage.setImageURI(imageUri)
-                //Log.d("TAG", "start")
+                imageUri = data?.data
+                avatarImage.setImageURI(imageUri)
         }
     }
 

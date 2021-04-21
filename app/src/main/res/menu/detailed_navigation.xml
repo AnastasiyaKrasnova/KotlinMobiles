@@ -6,17 +6,17 @@
     <item
         android:id="@+id/back"
         android:icon="@drawable/back"
-        android:title="Back" />
+        android:title="@string/navigation_back" />
 
     <item
         android:id="@+id/edit_button"
         android:icon="@drawable/edit"
-        android:title="Edit" />
+        android:title="@string/navigation_edit" />
 
     <item
         android:id="@+id/photo_button"
         android:icon="@drawable/photo"
-        android:title="Album" />
+        android:title="@string/navigation_photo" />
 
 
 </menu>
